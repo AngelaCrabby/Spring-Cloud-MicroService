@@ -1,5 +1,6 @@
 package demo.service.impl;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import demo.domain.Order;
 import demo.domain.OrderDeliveryRequest;
 import demo.service.OrderDeliveryRequestService;
@@ -24,10 +25,21 @@ public class OrderDeliveryRequestServiceImpl implements OrderDeliveryRequestServ
         return orderDeliveryRequest;
     }
 
+    /** send OrderDeliveryRequest to Food-Delivery-Service */
+    // if sendOrderDeliveryRequest() has error, then call sendOrderDeliveryRequestFallback()
+    @HystrixCommand(fallbackMethod = "sendOrderDeliveryRequestFallback")
     @Override
     public void sendOrderDeliveryRequest(OrderDeliveryRequest orderDeliveryRequest) {
         log.info("OrderDeliveryRequest @food-order " + orderDeliveryRequest);
-        String foodPayment = "http://localhost:9003";
-        this.restTemplate.postForLocation(foodPayment + "/api/delivery", orderDeliveryRequest);
+        String foodDelivery = "http://localhost:9003";
+        this.restTemplate.postForLocation(foodDelivery + "/api/delivery", orderDeliveryRequest);
+    }
+
+    // Plan B : backup fall back method
+    public void sendOrderDeliveryRequestFallback(OrderDeliveryRequest orderDeliveryRequest) {
+        log.error("Hystrix Fallback Method. Unable to send OrderDeliveryRequest. " +
+                "Send a email to notify delivery info");
+
+        // can send a email to notify delivery info
     }
 }
