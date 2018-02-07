@@ -39,8 +39,13 @@
         URL:  http://localhost:7979/ 
          --> Hystrix Dashboard
          --> Substitude  [http://hostname:port/turbine/turbine.stream] to
-                    URL:  http://localhost:9000/hystrix.stream
+                    URL:  http://localhost:9001/hystrix.stream
          --> Monitor Stream
+3.  Chrome, [RabbitMQ Management]
+        URL:  http://localhost:15672/
+         --> Username: guest
+         --> Password: guest
+         --> Login
 ~~~
 ## Run Spring-Cloud-Food-Delivery:
 ~~~
@@ -61,7 +66,8 @@ Response (to front end) : orderID, calculated subtotal, tax, total Amount
 Postman:  [Get] --> URL:  localhost:9001/payment/Angela --> Send
 Response: user's payment info except security code 
 
-Chrome:   URL:  http://localhost:9003/     -->    Connect
+Chrome, [Food Delivery WebSocket]:   
+         URL:  http://localhost:9003/     -->    Connect
 Postman: [Post] --> URL:  localhost:9001/payment
                 --> Body --> raw --> Json --> requestBody in file [food-payment/src/main/resources/payment-request.json]
                 --> Change "orderId": "5a73c66715f6487e118aee31" in payment-request.json to
@@ -74,7 +80,8 @@ Response (to Chrome, Food Delivery WebSocket): orderId, estimate delivery time
              Chrome [Food Delivery WebSocket]: orderId, estimate delivery time        
 
 4) user can unsubscribe food delivery info
-Chrome:   URL:  http://localhost:9003/     -->    Disconnect
+Chrome, [Food Delivery WebSocket]: 
+         URL:  http://localhost:9003/     -->    Disconnect
 ~~~
 ## Backend Services Communication: [When User paid food order]
 ~~~

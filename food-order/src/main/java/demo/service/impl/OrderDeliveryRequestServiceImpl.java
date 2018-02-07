@@ -33,6 +33,7 @@ public class OrderDeliveryRequestServiceImpl implements OrderDeliveryRequestServ
         log.info("OrderDeliveryRequest @food-order " + orderDeliveryRequest);
         String foodDelivery = "http://localhost:9003";
         this.restTemplate.postForLocation(foodDelivery + "/api/delivery", orderDeliveryRequest);
+        log.info("End of sending OrderDeliveryRequest");
     }
 
     // Plan B : backup fall back method

@@ -1,5 +1,6 @@
 package demo.service.impl;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import demo.domain.Payment;
 import demo.domain.PaymentOrderResponse;
 import demo.service.PaymentOrderResponseService;
@@ -30,6 +31,7 @@ public class PaymentOrderResponseServiceImpl implements PaymentOrderResponseServ
     /**
      * Send PaymentOrderResponse to Food-Order-Service
      */
+    @HystrixCommand(fallbackMethod = "sendPaymentOrderResponseFallback")
     @Override
     public void sendPaymentOrderResponse(PaymentOrderResponse paymentOrderResponse) {
         log.info("PaymentOrderResponse @food-payment " + paymentOrderResponse);
@@ -38,6 +40,14 @@ public class PaymentOrderResponseServiceImpl implements PaymentOrderResponseServ
         String foodOrder = "http://food-order";  // http://[service name]
         //String foodOrder = "http://localhost:9000";
         this.restTemplate.put(foodOrder + "/api/order", paymentOrderResponse);
+        log.info("End of sending PaymentOrderResponse ");
+    }
+
+    // Plan B : backup fall back method
+    public void sendPaymentOrderResponseFallback(PaymentOrderResponse paymentOrderResponse) {
+        log.error("Hystrix Fallback Method. Unable to send PaymentOrderResponse " +
+                "to food-order-service");
+
     }
 
 }
