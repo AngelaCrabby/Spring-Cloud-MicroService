@@ -30,7 +30,17 @@
     --> java -jar food-delivery-1.0.0.BUILD-SNAPSHOT.jar 
     Result:   food-delivery port sets up
 
-Double check all components are setting up, ^0^~        
+# Double check all components are setting up, ^0^~   
+1.  Chrome, [Eureka]:
+        URL:  http://localhost:8761/
+    Result: Instances currently registered with Eureka
+            Application: Food-Delivery; Food-Order; Food-Payment
+2.  Chrome, [Hystrix Monitor]
+        URL:  http://localhost:7979/ 
+         --> Hystrix Dashboard
+         --> Substitude  [http://hostname:port/turbine/turbine.stream] to
+                    URL:  http://localhost:9000/hystrix.stream
+         --> Monitor Stream
 ~~~
 ## Run Spring-Cloud-Food-Delivery:
 ~~~
@@ -103,12 +113,3 @@ WebSockt, push msg to Chrome [Food Delivery WebSocket]
 Log: Updated deliveryTime @food-delivery-service
           push msg to Chrome [Food Delivery WebSocket]
 ~~~
-## Payment Fail:
-~~~
-Chrome:  URL:  localhost:7979 
-         --> Hystrix Dashboard
-         --> Substitude  [http://hostname:port/turbine/turbine.stream] to
-                    URL:  http://localhost:9001/hystrix.stream
-         --> Monitor Stream
-~~~
-
