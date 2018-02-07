@@ -83,7 +83,7 @@ Response (to Chrome, Food Delivery WebSocket): orderId, estimate delivery time
 Chrome, [Food Delivery WebSocket]: 
          URL:  http://localhost:9003/     -->    Disconnect
 ~~~
-## Backend Services Communication: [When User submit payment request for food order]
+## Backend Services Communication: [Submit payment request for food order]
 ~~~
 1. Terminal, [Food-Payment-Service]:
 Log: PaymentOrder @food-payment-service 
