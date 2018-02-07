@@ -5,6 +5,7 @@ import demo.domain.Order;
 import demo.domain.OrderDeliveryRequest;
 import demo.service.OrderDeliveryRequestService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -12,7 +13,10 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 public class OrderDeliveryRequestServiceImpl implements OrderDeliveryRequestService {
 
-    private RestTemplate restTemplate = new RestTemplate();
+    @Autowired   // Eureka Discovery Client will inject RestTemplate
+    private RestTemplate restTemplate;  // Service to Service Call
+
+    //private RestTemplate restTemplate = new RestTemplate();
 
     @Override
     public OrderDeliveryRequest generateOrderDeliveryRequest(Order order) {
@@ -31,7 +35,10 @@ public class OrderDeliveryRequestServiceImpl implements OrderDeliveryRequestServ
     @Override
     public void sendOrderDeliveryRequest(OrderDeliveryRequest orderDeliveryRequest) {
         log.info("OrderDeliveryRequest @food-order " + orderDeliveryRequest);
-        String foodDelivery = "http://localhost:9003";
+
+        // Eureka Server will find the distribution eureka client, so not need to write server port
+        String foodDelivery = "http://food-delivery";  // http://[service name]
+        //String foodDelivery = "http://localhost:9003";
         this.restTemplate.postForLocation(foodDelivery + "/api/delivery", orderDeliveryRequest);
         log.info("End of sending OrderDeliveryRequest");
     }

@@ -34,6 +34,7 @@ public class FoodDeliveryRestController {
     /**
      * 1. Receive OrderDeliveryRequest from food-order-service
      * 2. Send estimate delivery time to WebSocket, then broadcast to front end
+     * 3. Send reminder of pickup time to WebSocket, then broadcast to front end
      */
     @RequestMapping(value = "/api/delivery", method = RequestMethod.POST)
     public void paymentOrder(@RequestBody OrderDeliveryRequest orderDeliveryRequest) throws Exception {

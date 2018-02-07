@@ -4,10 +4,12 @@ import demo.domain.Payment;
 import demo.domain.PaymentRepository;
 import demo.domain.Sender;
 import demo.service.PaymentService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class PaymentServiceImpl implements PaymentService {
     private PaymentRepository paymentRepository;
 
@@ -37,6 +39,8 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Payment updatePaymentStatusById(String paymentStatus, Long paymentId) {
         paymentRepository.updatePaymentStatusById(paymentStatus, paymentId);
+        log.info(String.format("Updated paymentStatus: %s for paymentId: %d",
+                paymentStatus, paymentId));
         return paymentRepository.findByPaymentId(paymentId);
     }
 

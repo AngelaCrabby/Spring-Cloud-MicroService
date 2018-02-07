@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
- * use this method to update deliveryTime
+ * use this method to update deliveryTime for pick up reminder
  * send the msg to msg broker
  * msg broker will broadcast to all subscribers
  */

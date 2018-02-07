@@ -83,7 +83,7 @@ Response (to Chrome, Food Delivery WebSocket): orderId, estimate delivery time
 Chrome, [Food Delivery WebSocket]: 
          URL:  http://localhost:9003/     -->    Disconnect
 ~~~
-## Backend Services Communication: [When User paid food order]
+## Backend Services Communication: [When User submit payment request for food order]
 ~~~
 1. Terminal, [Food-Payment-Service]:
 Log: PaymentOrder @food-payment-service 
@@ -101,17 +101,23 @@ Log: Update paymentOrder status @3rd-party-payment
 Log: Received PaymentOrder from 3rd-party-payment 
             Payment(paymentId=1, ..., paymentStatus=Success)
 
-     [Order Payment Success]
-Log: PaymentOrderResponse @food-payment 
+     [PaymentOrder Success]
+Log: PaymentOrderResponse @food-payment-service 
             PaymentOrderResponse(paymentId=1, orderId=...)
+Log: HystrixFallBack @food-payment-service 
+Log: Updated paymentStatus: Success for paymentId: 1 @food-payment-service 
 
 5. Terminal, [Food-Order-Service]:
 Log: Received paymentOrderResponse @food-order-service 
             PaymentOrderResponse(paymentId=1, orderId=...)
-Log: OrderDeliveryRequest @food-order 
+Log: OrderDeliveryRequest @food-order-service  
             OrderDeliveryRequest(id=...)
+Log: HystrixFallBack @food-order-service 
 
-6. Terminal, [Food-Order-Delivery]:
+6. Terminal, [Food-Payment-Service]:
+Log: End of Sending PaymentOrderResponse
+
+7. Terminal, [Food-Order-Delivery]:
 Log: Received OrderDeliveryRequest @food-delivery-service 
             OrderDeliveryRequest(id=..., estimatedDeliveryTime=null)
 
